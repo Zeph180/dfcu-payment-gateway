@@ -16,37 +16,47 @@ public class PaymentService
     public async Task<PaymentResponseDto> ProcessPaymentAsync(PaymentRequestDto request)
     {
         var status = GetRandomStatus();
-        var transaction = new Transaction
-        (
+
+        var result = Transaction.Create(
             payer: request.Payer,
             payee: request.Payee,
             amount: request.Amount,
-            currency: request.Currency
-            //status: status,
-        )
+            currency: request.Currency,
+            payerReference: request.PayerReference
+        );
+
+        if (!result.Success)
         {
-            PaymentReference = request.PayerReference
-        };
+            return new PaymentResponseDto
+            {
+                TransactionReference = Guid.Empty,
+                StatusCode = 400,
+                Message = result.Message
+            };
+        }
 
-        await Task.Delay(150);
+        var transaction = result.Data;
 
-        var saved = _repository.AddTransactionAsync(transaction);
+        await Task.Delay(100);
+
+        await _repository.AddTransactionAsync(transaction);
+
         return new PaymentResponseDto
         {
             TransactionReference = transaction.Id,
             StatusCode = status switch
             {
-                "PENDING"=> 100,
-                "SUCCESS"=> 200,
-                "FAILURE"=> 400,
+                "PENDING" => 100,
+                "SUCCESS" => 200,
+                "FAILED" => 400,
                 _ => 400
             },
             Message = status switch
             {
                 "PENDING" => "Transaction Pending",
                 "SUCCESS" => "Transaction successfully processed",
-                "FAILURE" => "Transaction Failed",
-                _ => "Unknown Error"
+                "FAILED" => "Transaction failed",
+                _ => "Unknown error"
             }
         };
     }
