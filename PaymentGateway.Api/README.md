@@ -1,116 +1,4 @@
 
-
-# Payment Gateway - Clean Architecture Overview
-
-## 🏗️ Architecture Overview
-
-This project implements **Clean Architecture** principles to create a modular, maintainable, and testable Payments Gateway API using **ASP.NET Core** with **SQL Server** as the database and **Ionic Angular** for the mobile client.
-
----
-
-## 🔧 Clean Architecture Layers
-
-### 1. **Domain Layer** (`PaymentsGateway.Domain`)
-- **Purpose**: Represents the core business logic and rules.
-- **Components**:
-   - Entities (e.g., `PaymentTransaction`)
-   - Interfaces (e.g., `IPaymentService`, `IPaymentRepository`)
-- **No dependencies** on other layers.
-
----
-
-### 2. **Application Layer** (`PaymentsGateway.Application`)
-- **Purpose**: Contains business use cases and application logic.
-- **Components**:
-   - Use Cases (e.g., `InitiatePayment`, `CheckPaymentStatus`)
-   - DTOs and ViewModels
-   - Interfaces from Domain Layer
-- **Depends on** Domain Layer.
-
----
-
-### 3. **Infrastructure Layer** (`PaymentsGateway.Infrastructure`)
-- **Purpose**: Handles interaction with external systems like databases and APIs.
-- **Components**:
-   - EF Core implementations
-   - Repository implementations
-   - Database context (`PaymentDbContext`)
-- **Depends on** Application and Domain Layers.
-
----
-
-### 4. **API Layer (Presentation)** (`PaymentsGateway.API`)
-- **Purpose**: Entry point for HTTP requests.
-- **Components**:
-   - Controllers (e.g., `PaymentsController`)
-   - API configuration and startup logic
-- **Depends on** Application Layer.
-
----
-
-## 🔄 Data Flow Example
-
-1. API Layer receives a payment request via HTTP.
-2. API Layer invokes the relevant Use Case in the Application Layer.
-3. Application Layer calls the Domain Service logic and uses interfaces defined in the Domain Layer.
-4. Infrastructure Layer implements these interfaces and interacts with the database.
-5. Response bubbles back up to the API Layer and to the client.
-
----
-
-## 📦 Project Structure
-
-```
-PaymentsGateway/
-├── PaymentsGateway.API/           # ASP.NET Core Web API (Presentation Layer)
-├── PaymentsGateway.Application/   # Application Layer (Use Cases)
-├── PaymentsGateway.Domain/        # Domain Layer (Core Business Logic)
-├── PaymentsGateway.Infrastructure/ # Infrastructure Layer (EF Core, DB Access)
-├── PaymentsGateway.Mobile/        # Ionic Angular Mobile Client
-```
-
----
-
-## ✅ Benefits of This Architecture
-
-- **Separation of Concerns**: Each layer has a clear responsibility.
-- **Testability**: Domain and Application layers can be unit tested independently.
-- **Maintainability**: Easy to extend, refactor, or replace components (e.g., switch from MSSQL to another DB).
-- **Scalability**: Logical separation allows services to scale independently if needed.
-
----
-
-## 🧪 Testing Strategy
-
-- **Unit Tests**: Focus on Domain and Application Layers.
-- **Integration Tests**: Validate data access and external system integration in Infrastructure.
-- **End-to-End Tests**: Verify complete user flows via the API and mobile app.
-
----
-
-## 📱 Mobile Client (Ionic Angular)
-
-The mobile client interacts with the API via HTTP:
-- Initiates new payments
-- Checks payment status
-- Shows transaction feedback
-
----
-
-## 📘 Further Improvements
-
-- Add authentication & authorization
-- Implement caching for status checks
-- Integrate with a real core banking system in place of mock responses
-
----
-
-## 🧑‍💻 Author
-
-Developed as part of a preliminary interview task for **dfcu Bank**.
-
-
-
 # 📘 DFCU Payment Gateway – API Documentation & Deployment Guide
 
 ## 🌐 Base URL
@@ -356,4 +244,111 @@ Log all transactions and errors securely
 
 Rotate credentials regularly
 ```
+
+## Payment Gateway - Clean Architecture Overview
+
+## 🏗️ Architecture Overview
+
+This project implements **Clean Architecture** principles to create a modular, maintainable, and testable Payments Gateway API using **ASP.NET Core** with **SQL Server** as the database and **Ionic Angular** for the mobile client.
+
+---
+
+## 🔧 Clean Architecture Layers
+
+### 1. **Domain Layer** (`PaymentsGateway.Domain`)
+- **Purpose**: Represents the core business logic and rules.
+- **Components**:
+  - Entities (e.g., `PaymentTransaction`)
+  - Interfaces (e.g., `IPaymentService`, `IPaymentRepository`)
+- **No dependencies** on other layers.
+
+---
+
+### 2. **Application Layer** (`PaymentsGateway.Application`)
+- **Purpose**: Contains business use cases and application logic.
+- **Components**:
+  - Use Cases (e.g., `InitiatePayment`, `CheckPaymentStatus`)
+  - DTOs and ViewModels
+  - Interfaces from Domain Layer
+- **Depends on** Domain Layer.
+
+---
+
+### 3. **Infrastructure Layer** (`PaymentsGateway.Infrastructure`)
+- **Purpose**: Handles interaction with external systems like databases and APIs.
+- **Components**:
+  - EF Core implementations
+  - Repository implementations
+  - Database context (`PaymentDbContext`)
+- **Depends on** Application and Domain Layers.
+
+---
+
+### 4. **API Layer (Presentation)** (`PaymentsGateway.API`)
+- **Purpose**: Entry point for HTTP requests.
+- **Components**:
+  - Controllers (e.g., `PaymentsController`)
+  - API configuration and startup logic
+- **Depends on** Application Layer.
+
+---
+
+## 🔄 Data Flow Example
+
+1. API Layer receives a payment request via HTTP.
+2. API Layer invokes the relevant Use Case in the Application Layer.
+3. Application Layer calls the Domain Service logic and uses interfaces defined in the Domain Layer.
+4. Infrastructure Layer implements these interfaces and interacts with the database.
+5. Response bubbles back up to the API Layer and to the client.
+
+---
+
+## 📦 Project Structure
+
+```
+Dfcu/
+├── PaymentsGateway.API/           # ASP.NET Core Web API (Presentation Layer)
+├── PaymentsGateway.Application/   # Application Layer (Use Cases)
+├── PaymentsGateway.Domain/        # Domain Layer (Core Business Logic)
+├── PaymentsGateway.Infrastructure/ # Infrastructure Layer (EF Core, DB Access)
+```
+
+---
+
+## ✅ Benefits of This Architecture
+
+- **Separation of Concerns**: Each layer has a clear responsibility.
+- **Testability**: Domain and Application layers can be unit tested independently.
+- **Maintainability**: Easy to extend, refactor, or replace components (e.g., switch from MSSQL to another DB).
+- **Scalability**: Logical separation allows services to scale independently if needed.
+
+---
+
+## 🧪 Testing Strategy
+
+- **Unit Tests**: Focus on Domain and Application Layers.
+- **Integration Tests**: Validate data access and external system integration in Infrastructure.
+- **End-to-End Tests**: Verify complete user flows via the API and mobile app.
+
+---
+
+## 📱 Mobile Client (Ionic Angular)
+
+The mobile client interacts with the API via HTTP:
+- Initiates new payments
+- Checks payment status
+- Shows transaction feedback
+
+🔗 The test client is available here [DFCU APP](https://github.com/Zeph180/dfcu-payment-gateway.git)
+
+---
+
+## 📘 Further Improvements
+
+- Add authentication & authorization
+- Implement caching for status checks
+- Integrate with a real core banking system in place of mock responses
+
+---
+
 
