@@ -20,3 +20,16 @@ EXEC sp_AddTransaction @Id, @Payer, @Payee, @Amount, @Currency, @PaymentReferenc
 2025-05-10 19:39:22.537 +03:00 [INF] Executed action PaymentGateway.Api.Controllers.PaymentsController.Initiate (PaymentGateway.Api) in 571.3576ms
 2025-05-10 19:39:22.537 +03:00 [INF] Executed endpoint 'PaymentGateway.Api.Controllers.PaymentsController.Initiate (PaymentGateway.Api)'
 2025-05-10 19:39:22.543 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5087/initiate - 400 null application/json; charset=utf-8 615.1974ms
+2025-05-10 19:45:52.645 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5087/initiate - application/json 119
+2025-05-10 19:45:52.650 +03:00 [INF] Executing endpoint 'PaymentGateway.Api.Controllers.PaymentsController.Initiate (PaymentGateway.Api)'
+2025-05-10 19:45:52.651 +03:00 [INF] Route matched with {action = "Initiate", controller = "Payments"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Initiate(PaymentGateway.Application.DTOs.PaymentRequestDto) on controller PaymentGateway.Api.Controllers.PaymentsController (PaymentGateway.Api).
+2025-05-10 19:45:52.658 +03:00 [INF] Executing action method PaymentGateway.Api.Controllers.PaymentsController.Initiate (PaymentGateway.Api) - Validation state: "Valid"
+2025-05-10 19:45:52.761 +03:00 [INF] Adding transaction: {"Id":"898e777a-5fa8-4aea-badc-5fd7ed9da51d","Payer":"1111111111","Payee":"2222222222","Amount":10,"Currency":"UGX","PaymentReference":"string","Status":"SUCCESS","CreatedAt":"2025-05-10T16:45:52.6585080Z","$type":"Transaction"}
+2025-05-10 19:45:52.824 +03:00 [INF] Executed DbCommand (13ms) [Parameters=[@Id='?' (DbType = Guid), @Payer='?' (Size = 10), @Payee='?' (Size = 10), @Amount='?' (DbType = Decimal), @Currency='?' (Size = 3), @PaymentReference='?' (Size = 6), @Status='?' (Size = 7), @CreatedAt='?' (DbType = DateTime)], CommandType='"Text"', CommandTimeout='30']
+EXEC sp_AddTransaction @Id, @Payer, @Payee, @Amount, @Currency, @PaymentReference, @Status, @CreatedAt
+2025-05-10 19:45:52.824 +03:00 [INF] Transaction added successfully: "898e777a-5fa8-4aea-badc-5fd7ed9da51d"
+2025-05-10 19:45:52.824 +03:00 [INF] Executed action method PaymentGateway.Api.Controllers.PaymentsController.Initiate (PaymentGateway.Api), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 166.0835ms.
+2025-05-10 19:45:52.824 +03:00 [INF] Executing ObjectResult, writing value of type 'PaymentGateway.Application.DTOs.PaymentResponseDto'.
+2025-05-10 19:45:52.825 +03:00 [INF] Executed action PaymentGateway.Api.Controllers.PaymentsController.Initiate (PaymentGateway.Api) in 172.9968ms
+2025-05-10 19:45:52.825 +03:00 [INF] Executed endpoint 'PaymentGateway.Api.Controllers.PaymentsController.Initiate (PaymentGateway.Api)'
+2025-05-10 19:45:52.825 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5087/initiate - 200 null application/json; charset=utf-8 181.2566ms
