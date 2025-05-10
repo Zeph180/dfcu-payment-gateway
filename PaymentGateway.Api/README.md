@@ -217,6 +217,37 @@ cd Dfcu
 CREATE DATABASE DfcuPayments;
 ```
 
+### 🔹 b. Create stored procedures
+
+```sql
+CREATE PROCEDURE sp_AddTransaction
+  @Id UNIQUEIDENTIFIER,
+    @Payer NVARCHAR(100),
+    @Payee NVARCHAR(100),
+    @Amount DECIMAL(18,2),
+    @Currency NVARCHAR(10),
+    @PaymentReference NVARCHAR(50),
+    @Status NVARCHAR(20),
+    @CreatedAt DATETIME
+AS
+BEGIN
+INSERT INTO Transactions
+(Id, Payer, Payee, Amount, Currency, PaymentReference, Status, CreatedAt)
+VALUES
+  (@Id, @Payer, @Payee, @Amount, @Currency, @PaymentReference, @Status, @CreatedAt)
+END
+
+CREATE PROCEDURE sp_GetTransactionById
+  @Id UNIQUEIDENTIFIER
+AS
+BEGIN
+SELECT TOP 1
+        *
+FROM Transactions
+WHERE Id = @Id
+END
+```
+
 ### 🔹 b. Update `appsettings.json` in `Dfcu.PaymentGateway.Api`
 
 ```json
