@@ -1,4 +1,5 @@
 
+using Microsoft.Extensions.Logging;
 using PaymentGateway.Domain.Common;
 using PaymentGateway.Domain.Enums;
 
@@ -9,6 +10,17 @@ namespace PaymentGateway.Domain;
 /// </summary>
 public class Transaction
 {
+    private static ILogger<Transaction>? _logger;
+
+    /// <summary>
+    /// Sets the logger instance for the Transaction class.
+    /// </summary>
+    /// <param name="logger">Logger instance to use</param>
+    public static void ConfigureLogger(ILogger<Transaction> logger)
+    {
+        _logger = logger;
+    }
+    
     /// <summary>
     /// Unique identifier for the transaction.
     /// </summary>
@@ -74,28 +86,46 @@ public class Transaction
         string status,
         string? payerReference = null)
     {
-        if (string.IsNullOrWhiteSpace(payer) || !payer.All(char.IsDigit) || payer.Length != 10)
-            return Result<Transaction>.Fail("Payer must be a numeric 10-digit account number.");
-
-        if (string.IsNullOrWhiteSpace(payee) || !payee.All(char.IsDigit) || payee.Length != 10)
-            return Result<Transaction>.Fail("Payee must be a numeric 10-digit account number.");
-
-        if (amount <= 0)
-            return Result<Transaction>.Fail("Amount must be greater than zero.");
-
-        if (string.IsNullOrWhiteSpace(currency) || currency.Length != 3)
-            return Result<Transaction>.Fail("Currency must be a 3-letter ISO code.");
-
-        var transaction = new Transaction
+        try
         {
-            Payer = payer,
-            Payee = payee,
-            Amount = amount,
-            Currency = currency,
-            PaymentReference = payerReference,
-            Status = status,
-        };
+            _logger?.LogDebug("Attempting to create new transaction with parameters: " +
+                              "Payer: {Payer}, Payee: {Payee}, Amount: {Amount}, " +
+                              "Currency: {Currency}, Status: {Status}, Reference: {Reference}",
+                payer, payee, amount, currency, status, payerReference);
+        
+            if (string.IsNullOrWhiteSpace(payer) || !payer.All(char.IsDigit) || payer.Length != 10)
+                return Result<Transaction>.Fail("Payer must be a numeric 10-digit account number.");
 
-        return Result<Transaction>.Ok(transaction);
+            if (string.IsNullOrWhiteSpace(payee) || !payee.All(char.IsDigit) || payee.Length != 10)
+                return Result<Transaction>.Fail("Payee must be a numeric 10-digit account number.");
+
+            if (amount <= 0)
+                return Result<Transaction>.Fail("Amount must be greater than zero.");
+
+            if (string.IsNullOrWhiteSpace(currency) || currency.Length != 3)
+                return Result<Transaction>.Fail("Currency must be a 3-letter ISO code.");
+
+            var transaction = new Transaction
+            {
+                Payer = payer,
+                Payee = payee,
+                Amount = amount,
+                Currency = currency,
+                PaymentReference = payerReference,
+                Status = status,
+            };
+
+            _logger?.LogInformation("Successfully created transaction {TransactionId}", transaction.Id);
+            _logger?.LogDebug("Created transaction details: {@Transaction}", transaction);
+            return Result<Transaction>.Ok(transaction);
+        }
+        catch (Exception ex)
+        {
+            _logger?.LogError(ex, "Unexpected error occurred while creating transaction. " +
+                                  "Parameters: Payer: {Payer}, Payee: {Payee}, Amount: {Amount}, " +
+                                  "Currency: {Currency}, Status: {Status}, Reference: {Reference}",
+                payer, payee, amount, currency, status, payerReference);
+            return Result<Transaction>.Fail("An unexpected error occurred while creating the transaction.");
+        }
     }
 }
