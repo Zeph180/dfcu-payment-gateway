@@ -22,6 +22,7 @@ public class PaymentService
             payee: request.Payee,
             amount: request.Amount,
             currency: request.Currency,
+            status: status,
             payerReference: request.PayerReference
         );
 
