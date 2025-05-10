@@ -348,7 +348,6 @@ The mobile client interacts with the API via HTTP:
 - Add authentication & authorization
 - Implement caching for status checks
 - Integrate with a real core banking system in place of mock responses
-
 ---
 
 
