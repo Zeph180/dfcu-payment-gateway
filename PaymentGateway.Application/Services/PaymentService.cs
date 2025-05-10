@@ -4,15 +4,27 @@ using PaymentGateway.Domain.Interfaces;
 
 namespace PaymentGateway.Application.Services;
 
+/// <summary>
+/// Handles the business logic for processing payments.
+/// </summary>
 public class PaymentService
 {
     private readonly ITransactionRepository _repository;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PaymentService"/> class.
+    /// </summary>
+    /// <param name="repository">The transaction repository used for persistence.</param>
     public PaymentService(ITransactionRepository repository)
     {
         _repository = repository;
     }
 
+    /// <summary>
+    /// Processes a payment request and returns the transaction response.
+    /// </summary>
+    /// <param name="request">The payment request DTO containing payer/payee details and amount.</param>
+    /// <returns>A <see cref="PaymentResponseDto"/> indicating the result of the operation.</returns>
     public async Task<PaymentResponseDto> ProcessPaymentAsync(PaymentRequestDto request)
     {
         var status = GetRandomStatus();
@@ -62,6 +74,10 @@ public class PaymentService
         };
     }
 
+    /// <summary>
+    /// Randomly determines a transaction status to simulate varying outcomes.
+    /// </summary>
+    /// <returns>A string status: PENDING, SUCCESS, or FAILURE.</returns>
     private string GetRandomStatus()
     {
         var random = new Random().Next(1, 101);

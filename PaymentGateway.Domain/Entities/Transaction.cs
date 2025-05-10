@@ -3,19 +3,69 @@ using PaymentGateway.Domain.Common;
 using PaymentGateway.Domain.Enums;
 
 namespace PaymentGateway.Domain;
+
+/// <summary>
+/// Represents a financial transaction between a payer and a payee.
+/// </summary>
 public class Transaction
 {
+    /// <summary>
+    /// Unique identifier for the transaction.
+    /// </summary>
     public Guid Id { get; set; } = Guid.NewGuid();
+    
+    /// <summary>
+    /// 10-digit numeric account number of the payer.
+    /// </summary>
     public string Payer { get; set; } = string.Empty;
+    
+    /// <summary>
+    /// 10-digit numeric account number of the payee.
+    /// </summary>
     public string Payee { get; set; } = string.Empty;
+    
+    /// <summary>
+    /// Amount to be transferred in the transaction.
+    /// </summary>
     public decimal Amount { get; set; } = decimal.Zero;
+    
+    /// <summary>
+    /// 3-letter ISO currency code (e.g., USD, EUR).
+    /// </summary>
     public string Currency { get; set; } = string.Empty;
+    
+    /// <summary>
+    /// Optional reference provided by the payer.
+    /// </summary>
     public string? PaymentReference { get; set; } = null;
+    
+    /// <summary>
+    /// Current status of the transaction (e.g., Pending, Completed).
+    /// </summary>
+    /// 
     public string Status { get; set; }
+    
+    /// <summary>
+    /// Timestamp of when the transaction was created (in UTC).
+    /// </summary>
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
+    /// <summary>
+    /// Private constructor to enforce the use of the Create method.
+    /// </summary>
     private Transaction() { }
 
+    
+    /// <summary>
+    /// Factory method for creating a new Transaction instance with validation.
+    /// </summary>
+    /// <param name="payer">Payer's 10-digit numeric account number.</param>
+    /// <param name="payee">Payee's 10-digit numeric account number.</param>
+    /// <param name="amount">Transaction amount (must be greater than zero).</param>
+    /// <param name="currency">3-letter ISO currency code.</param>
+    /// <param name="status">Transaction status.</param>
+    /// <param name="payerReference">Optional reference from the payer.</param>
+    /// <returns>Result containing the transaction or a validation error message.</returns>
     public static Result<Transaction> Create(
         string payer,
         string payee,
