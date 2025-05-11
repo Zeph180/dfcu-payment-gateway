@@ -1,11 +1,53 @@
 
 # 📘 DFCU Payment Gateway – API Documentation & Deployment Guide
 
-## 🌐 Base URL
+## 📖 Table of Contents
 
-```
-https://yourdomain.com/api/payments
-```
+ - [🔹 API Endpoints](#-api-endpoints)
+  - [📘 POST /api/payments](#post-apipayments)
+    - [✅ Request](#-request)
+    - [📥 Response](#-response)
+    - [📊 Status Codes](#-status-codes)
+  - [📘 GET /api/payments/{transactionReference}](#get-apipaymentstransactionreference)
+    - [✅ Route Parameter](#-route-parameter)
+    - [📥 Response](#-response-1)
+    - [📊 Transaction Status](#-transaction-status)
+    - [📊 Status Codes](#-status-codes-1)
+
+- [🚀 Deployment Guide](#-deployment-guide)
+  - [✅ Pre-requisites](#-pre-requisites)
+  - [🏗️ Step 1: Clone the Repository](#️-step-1-clone-the-repository)
+  - [🧱 Step 2: Configure the Database](#-step-2-configure-the-database)
+    - [🔹 Create Database](#-create-database)
+    - [🔹 Stored Procedures](#-stored-procedures)
+    - [🔹 Update appsettingsjson](#-update-appsettingsjson)
+    - [🔹 Apply Migrations](#-apply-migrations)
+  - [⚙️ Step 3: Build & Run Locally](#️-step-3-build--run-locally)
+  - [🖥️ Step 4: Deploy to Production](#️-step-4-deploy-to-production)
+    - [🚩 Option A: IIS](#-option-a-iis)
+    - [🐳 Option B: Docker](#-option-b-docker)
+      - [Dockerfile Snippet](#dockerfile-snippet)
+      - [Build/Run Commands](#buildrun-commands)
+  - [🔐 Step 5: Secure the API](#-step-5-secure-the-api)
+
+- [🏗️ Clean Architecture](#️-clean-architecture)
+  - [🔧 Layers](#-layers)
+    - [Domain](#domain)
+    - [Application](#application)
+    - [Infrastructure](#infrastructure)
+    - [API (Presentation)](#api-presentation)
+  - [🔄 Data Flow](#-data-flow)
+
+- [📦 Project Structure](#-project-structure)
+
+- [✅ Benefits](#-benefits)
+
+- [🧪 Testing Strategy](#-testing-strategy)
+
+- [📱 Mobile Client (Ionic Angular)](#-mobile-client-ionic-angular)
+
+- [📘 Further Improvements](#-further-improvements)
+
 
 ---
 
