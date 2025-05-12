@@ -51,7 +51,7 @@
 
 ---
 
-## 🔹 POST `/api/payments`
+## 🔹 POST `/initiate`
 
 Initiates a payment transaction.
 
@@ -87,7 +87,7 @@ Initiates a payment transaction.
 
 ---
 
-## 🔹 GET `/api/payments/{transactionReference}`
+## 🔹 GET `/status/{transactionReference}`
 
 Retrieves the status of a transaction using its reference.
 
@@ -147,7 +147,15 @@ cd Dfcu
 CREATE DATABASE DfcuPayments;
 ```
 
-### 🔹 b. Create stored procedures
+
+### 🔹 b. Apply Migrations
+
+```bash
+cd Dfcu.PaymentGateway.Infrastructure
+dotnet ef database update
+```
+
+### 🔹 c. Create stored procedures
 
 ```sql
 CREATE PROCEDURE sp_AddTransaction
@@ -178,7 +186,7 @@ WHERE Id = @Id
 END
 ```
 
-### 🔹 b. Update `appsettings.json` in `Dfcu.PaymentGateway.Api`
+### 🔹 d. Update `appsettings.json` in `Dfcu.PaymentGateway.Api`
 
 ```json
 {
@@ -187,14 +195,6 @@ END
   }
 }
 ```
-
-### 🔹 c. Apply Migrations
-
-```bash
-cd Dfcu.PaymentGateway.Infrastructure
-dotnet ef database update
-```
-
 ---
 
 ## ⚙️ Step 3: Build & Run Locally
